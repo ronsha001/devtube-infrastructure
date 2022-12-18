@@ -14,14 +14,14 @@ spec:
     chart: ingress-nginx
     repoURL: https://kubernetes.github.io/ingress-nginx  
     targetRevision: 4.4.0
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: argocd
     helm:
       values: |
         controller:
           extra_args:
             enable-ssl-passthrough: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
 
 
   syncPolicy:
