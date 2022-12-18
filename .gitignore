@@ -1,3 +1,5 @@
 terraform/.terraform/
 terraform/.terraform.lock.hcl
 terraform/errored.tfstate
+secret-store.yaml
+external-secrets.yaml

@@ -1,0 +1,19 @@
+# {{- if .Values.ingress.enabled -}}
+# {{- if .Values.ingress.certificate.enabled -}}
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: ssl-cert-production
+  namespace: devtube
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+spec:
+  secretName: ssl-cert-production
+  issuerRef:
+    name: letsencrypt-production
+    kind: ClusterIssuer
+  commonName: examples@example.com
+  dnsNames:
+  - devtube.ddns.net
+# {{- end }}
+# {{- end }}

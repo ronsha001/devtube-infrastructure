@@ -1,0 +1,22 @@
+# {{- if .Values.ingress.enabled -}}
+# {{- if .Values.ingress.certificate.enabled -}}
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-production
+  namespace: {{ .Values.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: examples@example.com
+    privateKeySecretRef:
+      name: letsencrypt-production
+    solvers:
+    - selector: {}
+      http01:
+        ingress:
+          class: nginx
+# {{- end }}
+# {{- end }}
