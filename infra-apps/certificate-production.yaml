@@ -1,5 +1,3 @@
-# {{- if .Values.ingress.enabled -}}
-# {{- if .Values.ingress.certificate.enabled -}}
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
@@ -12,8 +10,6 @@ spec:
   issuerRef:
     name: letsencrypt-production
     kind: ClusterIssuer
-  commonName: examples@example.com
+  commonName: ronsh0111@gmail.com
   dnsNames:
   - devtube.ddns.net
-# {{- end }}
-# {{- end }}
