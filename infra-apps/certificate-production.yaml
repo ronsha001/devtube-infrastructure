@@ -10,6 +10,6 @@ spec:
   issuerRef:
     name: letsencrypt-production
     kind: ClusterIssuer
-  commonName: ronsh0111@gmail.com
+  commonName: devtube.ddns.net
   dnsNames:
   - devtube.ddns.net
