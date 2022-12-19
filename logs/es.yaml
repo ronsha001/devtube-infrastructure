@@ -26,7 +26,7 @@ spec:
           resources:
             requests:
               storage: 3Gi
-              
+        replicas: 2
     repoURL: https://helm.elastic.co 
     chart: elasticsearch
     targetRevision: 7.17.1
