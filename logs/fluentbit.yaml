@@ -29,7 +29,7 @@ spec:
     targetRevision: 0.19.20
   destination:
     server: https://kubernetes.default.svc
-    namespace: logging
+    namespace: logs
 
   syncPolicy:
     syncOptions:

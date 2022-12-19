@@ -14,7 +14,7 @@ spec:
     path: logs
   destination:
     server: https://kubernetes.default.svc
-    namespace: logging
+    namespace: logs
 
   syncPolicy:
     syncOptions:
