@@ -15,8 +15,16 @@ spec:
       parameters:
         - name: resources.requests.cpu
           value: 100m
+        - name: resources.requests.memory
+          value: "500Mi"
         - name: resources.limits.cpu
           value: 1000m
+        - name: resources.limits.memory
+          value: "1000Mi"
+        - name: replicas
+          value: "2"
+        - name: volumeClaimTemplate.resources.requests.storage
+          value: "5Gi"
     repoURL: https://helm.elastic.co 
     chart: elasticsearch
     targetRevision: 7.17.1
