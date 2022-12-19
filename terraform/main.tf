@@ -23,7 +23,7 @@ module "cluster-module" {
   dns_prefix                = "example"
   default_node_pool_name    = "default"
   default_node_pool_nodes   = 3
-  default_node_pool_vm_size = "Standard_DS2_v2"
+  default_node_pool_vm_size = "Standard_B4ms"
   enable_auto_scaling       = true
   identity_type             = "SystemAssigned"
   argocd_version            = "5.16.1"
