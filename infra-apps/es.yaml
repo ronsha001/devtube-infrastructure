@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: elasticsearch
+  namespace: default
+spec:
+  project: default
+
+  source:
+    helm:
+      parameters:
+        - name: resources.requests.cpu
+          value: 100m
+        - name: resources.limits.cpu
+          value: 1000m
+    repoURL: https://helm.elastic.co 
+    chart: elasticsearch
+    targetRevision: 7.17.1
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+    automated:
+      selfHeal: true
+      prune: true

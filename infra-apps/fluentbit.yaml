@@ -1,0 +1,35 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: fluentbit
+  namespace: default
+spec:
+  project: default
+
+  source:
+    helm:
+      values: |
+        config:
+          outputs: |
+            [OUTPUT]
+                Name es
+                Match kube.*
+                Host elasticsearch-master
+                Logstash_Format On
+                Retry_Limit False
+                net.keepalive Off
+                Replace_Dots On
+                Trace_Error On
+    repoURL: https://fluent.github.io/helm-charts
+    chart: fluent-bit
+    targetRevision: 0.19.20
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+    automated:
+      selfHeal: true
+      prune: true
