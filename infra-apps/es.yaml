@@ -12,19 +12,21 @@ spec:
 
   source:
     helm:
-      parameters:
-        - name: resources.requests.cpu
-          value: 100m
-        - name: resources.requests.memory
-          value: "500Mi"
-        - name: resources.limits.cpu
-          value: 1000m
-        - name: resources.limits.memory
-          value: "1000Mi"
-        - name: replicas
-          value: "2"
-        - name: volumeClaimTemplate.resources.requests.storage
-          value: "5Gi"
+      values: |
+        resources:
+          requests:
+            cpu: "256m"
+            memory: "256Mi"
+          limits:
+            cpu: "512m"
+            memory: "512Mi"
+
+        volumeClaimTemplate:
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 3Gi
+              
     repoURL: https://helm.elastic.co 
     chart: elasticsearch
     targetRevision: 7.17.1
