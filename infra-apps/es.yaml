@@ -2,7 +2,11 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: elasticsearch
-  namespace: default
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   project: default
 
@@ -18,7 +22,7 @@ spec:
     targetRevision: 7.17.1
   destination:
     server: https://kubernetes.default.svc
-    namespace: default
+    namespace: logging
 
   syncPolicy:
     syncOptions:
