@@ -15,11 +15,9 @@ spec:
       values: |
         resources:
           requests:
-            cpu: "256m"
-            memory: "256Mi"
+            cpu: "100m"
           limits:
-            cpu: "512m"
-            memory: "512Mi"
+            cpu: "1000m"
 
         volumeClaimTemplate:
           accessModes: ["ReadWriteOnce"]
