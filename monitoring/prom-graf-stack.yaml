@@ -1,0 +1,37 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: prometheus-grafana-stack
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://prometheus-community.github.io/helm-charts
+    chart: kube-prometheus-stack
+    targetRevision: 42.3.0
+    helm:
+      skipCrds: true
+      values: |
+        grafana:
+          ingress:
+            enabled: true
+            hosts:
+              - monitor
+            annotations:
+              kubernetes.io/ingress.class: nginx
+          adminPassword: ron123
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitor
+
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+
+    automated:
+      selfHeal: true
+      prune: true
