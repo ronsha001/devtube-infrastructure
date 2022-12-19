@@ -44,7 +44,7 @@ variable "default_node_pool_vm_size" {
 }
 variable "default_node_pool_min_count" {
   type    = number
-  default = 1
+  default = 3
 }
 variable "default_node_pool_max_count" {
   type    = number
