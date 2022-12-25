@@ -27,6 +27,15 @@ provider "helm" {
   }
 }
 
+resource "helm_release" "external_secrets" {
+  name             = "external-secrets"
+  create_namespace = "true"
+  namespace        = "external-secrets"
+  repository       = "https://charts.external-secrets.io"
+  chart            = "external-secrets"
+  version          = var.external_secrets_version
+}
+
 resource "helm_release" "argocd" {
   name             = "argocd"
   create_namespace = "true"
@@ -35,39 +44,13 @@ resource "helm_release" "argocd" {
   chart            = "argo-cd"
   version          = var.argocd_version
   set {
-    name = "configs.credentialTemplates.ssh-creds1.url"
-    value = "git@github.com:ronsha001/devtube-infrastructure.git"
-  }
-  set {
     name  = "configs.credentialTemplates.ssh-creds1.sshPrivateKey"
     value = data.azurerm_key_vault_secret.ssh.value
-  }
-  set {
-    name  = "configs.repositories.private-repo1.url"
-    value = "git@github.com:ronsha001/devtube-infrastructure.git"
-  }
-  set {
-    name  = "configs.repositories.private-repo1.name"
-    value = "devtube-infras"
-  }
-
-  set {
-    name = "configs.credentialTemplates.ssh-creds2.url"
-    value = "git@github.com:ronsha001/devtube-chart.git"
   }
   set {
     name  = "configs.credentialTemplates.ssh-creds2.sshPrivateKey"
     value = data.azurerm_key_vault_secret.ssh.value
   }
-  set {
-    name  = "configs.repositories.private-repo2.url"
-    value = "git@github.com:ronsha001/devtube-chart.git"
-  }
-  set {
-    name  = "configs.repositories.private-repo2.name"
-    value = "devtube-chart"
-  }
-
   set {
     name = "configs.secret.argocdServerAdminPassword"
     value = data.azurerm_key_vault_secret.argo_pass.value
@@ -76,14 +59,6 @@ resource "helm_release" "argocd" {
     file(var.argocd_values_file_path)
   ]
 }
-# resource "helm_release" "external_secrets" {
-#   name             = "external-secrets"
-#   create_namespace = "true"
-#   namespace        = "external-secrets"
-#   repository       = "https://charts.external-secrets.io"
-#   chart            = "external-secrets"
-#   version          = var.external_secrets_version
-# }
 # resource "helm_release" "ingress-nginx" {
 #   name             = "ingress-nginx"
 #   create_namespace = "true"
