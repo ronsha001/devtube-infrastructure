@@ -2,7 +2,20 @@ data "azurerm_kubernetes_cluster" "credentials" {
   name                = azurerm_kubernetes_cluster.devtube.name
   resource_group_name = azurerm_resource_group.devtube.name
 }
-
+data "azurerm_key_vault_secret" "ssh" {
+  name         = "my-ssh"
+  key_vault_id = azurerm_key_vault.devtube.id
+  depends_on = [
+    azurerm_key_vault_secret.devtube_secret_10
+  ]
+}
+data "azurerm_key_vault_secret" "argo_pass" {
+  name         = "argo-password"
+  key_vault_id = azurerm_key_vault.devtube.id
+  depends_on = [
+    azurerm_key_vault_secret.devtube_secret_11
+  ]
+}
 
 provider "helm" {
   kubernetes {
@@ -21,10 +34,56 @@ resource "helm_release" "argocd" {
   repository       = "https://argoproj.github.io/argo-helm"
   chart            = "argo-cd"
   version          = var.argocd_version
+  set {
+    name = "configs.credentialTemplates.ssh-creds1.url"
+    value = "git@github.com:ronsha001/devtube-infrastructure.git"
+  }
+  set {
+    name  = "configs.credentialTemplates.ssh-creds1.sshPrivateKey"
+    value = data.azurerm_key_vault_secret.ssh.value
+  }
+  set {
+    name  = "configs.repositories.private-repo1.url"
+    value = "git@github.com:ronsha001/devtube-infrastructure.git"
+  }
+  set {
+    name  = "configs.repositories.private-repo1.name"
+    value = "devtube-infras"
+  }
+
+  set {
+    name = "configs.credentialTemplates.ssh-creds2.url"
+    value = "git@github.com:ronsha001/devtube-chart.git"
+  }
+  set {
+    name  = "configs.credentialTemplates.ssh-creds2.sshPrivateKey"
+    value = data.azurerm_key_vault_secret.ssh.value
+  }
+  set {
+    name  = "configs.repositories.private-repo2.url"
+    value = "git@github.com:ronsha001/devtube-chart.git"
+  }
+  set {
+    name  = "configs.repositories.private-repo2.name"
+    value = "devtube-chart"
+  }
+
+  set {
+    name = "configs.secret.argocdServerAdminPassword"
+    value = data.azurerm_key_vault_secret.argo_pass.value
+  }
   values = [
     file(var.argocd_values_file_path)
   ]
 }
+# resource "helm_release" "external_secrets" {
+#   name             = "external-secrets"
+#   create_namespace = "true"
+#   namespace        = "external-secrets"
+#   repository       = "https://charts.external-secrets.io"
+#   chart            = "external-secrets"
+#   version          = var.external_secrets_version
+# }
 # resource "helm_release" "ingress-nginx" {
 #   name             = "ingress-nginx"
 #   create_namespace = "true"
@@ -44,14 +103,6 @@ resource "helm_release" "argocd" {
 #     name  = "installCRDs"
 #     value = "true"
 #   }
-# }
-# resource "helm_release" "external-secrets" {
-#   name             = "external-secrets"
-#   create_namespace = "true"
-#   namespace        = "external-secrets"
-#   repository       = "https://charts.external-secrets.io"
-#   chart            = "external-secrets"
-#   version          = var.external_secrets_version
 # }
 #  Warning: Helm release "argocd" was created but has a failed status. Use the `helm` command to investigate the error, correct it, then run Terraform again.
 # │ 

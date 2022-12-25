@@ -1,7 +1,4 @@
-resource "azurerm_resource_group" "devtube" {
-  name     = "${var.project}-cluster"
-  location = var.rg_location
-
+locals {
   tags = {
     project         = var.project
     creation_date   = var.creation_date
@@ -9,6 +6,14 @@ resource "azurerm_resource_group" "devtube" {
     created_by      = var.created_by
     made_by         = var.made_by
   }
+}
+
+resource "azurerm_resource_group" "devtube" {
+  name     = "${var.project}-cluster"
+  location = var.rg_location
+
+  tags = merge(local.tags)
+
 }
 
 resource "azurerm_kubernetes_cluster" "devtube" {
@@ -30,13 +35,8 @@ resource "azurerm_kubernetes_cluster" "devtube" {
     type = var.identity_type
   }
 
-  tags = {
-    project         = var.project
-    creation_date   = var.creation_date
-    expiration_date = var.expiration_date
-    created_by      = var.created_by
-    made_by         = var.made_by
-  }
+  tags = merge(local.tags)
+
 }
 
 

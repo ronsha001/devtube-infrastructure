@@ -82,3 +82,60 @@ variable "acr_scope" {
   type    = string
   default = "example"
 }
+
+variable "key_permissions" {
+  type = list
+  default = ["Get"]
+}
+variable "secret_permissions" {
+  type = list
+  default = ["Get"]
+}
+variable "storage_permissions" {
+  type = list
+  default = ["Get"]
+}
+variable "react-api-key" {
+  type = list
+  default = []
+}
+variable "react-app-id" {
+  type = list
+  default = []
+}
+variable "react-auth-domain" {
+  type = list
+  default = []
+}
+variable "react-messaging-senderId" {
+  type = list
+  default = []
+}
+variable "react-project-id" {
+  type = list
+  default = []
+}
+variable "react-storage-bucket" {
+  type = list
+  default = []
+}
+variable "jwt-key" {
+  type = list
+  default = []
+}
+variable "root-user" {
+  type = list
+  default = []
+}
+variable "root-password" {
+  type = list
+  default = []
+}
+variable "my-ssh" {
+  type = string
+  default = ""
+}
+variable "argo-password" {
+  type = list
+  default = []
+}
