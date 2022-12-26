@@ -24,46 +24,46 @@ variable "made_by" {
 }
 
 variable "react-api-key" {
-  type = list
+  type    = list(any)
   default = []
 }
 variable "react-app-id" {
-  type = list
+  type    = list(any)
   default = []
 }
 variable "react-auth-domain" {
-  type = list
+  type    = list(any)
   default = []
 }
 variable "react-messaging-senderId" {
-  type = list
+  type    = list(any)
   default = []
 }
 variable "react-project-id" {
-  type = list
+  type    = list(any)
   default = []
 }
 variable "react-storage-bucket" {
-  type = list
+  type    = list(any)
   default = []
 }
 variable "jwt-key" {
-  type = list
+  type    = list(any)
   default = []
 }
 variable "root-user" {
-  type = list
+  type    = list(any)
   default = []
 }
 variable "root-password" {
-  type = list
+  type    = list(any)
   default = []
 }
 variable "my-ssh" {
-  type = string
+  type    = string
   default = ""
 }
 variable "argo-password" {
-  type = list
+  type    = list(any)
   default = []
 }

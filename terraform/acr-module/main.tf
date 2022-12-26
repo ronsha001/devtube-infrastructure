@@ -15,7 +15,7 @@ resource "azurerm_resource_group" "devtube" {
 }
 
 resource "azurerm_container_registry" "acr" {
-  name                = "${var.project}"
+  name                = var.project
   resource_group_name = azurerm_resource_group.devtube.name
   location            = azurerm_resource_group.devtube.location
   sku                 = var.sku

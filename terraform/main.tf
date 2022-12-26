@@ -8,9 +8,8 @@ module "acr" {
   created_by      = var.created_by
   made_by         = var.made_by
 
-  rg_location     = "East US"
-  sku             = "Basic"
-  # georeplications = ["North Europe", "East Asia"]
+  rg_location = "East US"
+  sku         = "Basic"
 }
 module "cluster-module" {
   source          = "./cluster-module"
@@ -35,15 +34,15 @@ module "cluster-module" {
   ingress_nginx_version     = "4.4.0"
   acr_scope                 = module.acr.acr-scope
 
-  react-api-key = var.react-api-key
-  react-app-id = var.react-app-id
-  react-auth-domain = var.react-auth-domain 
+  react-api-key            = var.react-api-key
+  react-app-id             = var.react-app-id
+  react-auth-domain        = var.react-auth-domain
   react-messaging-senderId = var.react-messaging-senderId
-  react-project-id = var.react-project-id 
-  react-storage-bucket  = var.react-storage-bucket
-  jwt-key = var.jwt-key
-  root-user = var.root-user
-  root-password = var.root-password
-  my-ssh = var.my-ssh
-  argo-password = var.argo-password
+  react-project-id         = var.react-project-id
+  react-storage-bucket     = var.react-storage-bucket
+  jwt-key                  = var.jwt-key
+  root-user                = var.root-user
+  root-password            = var.root-password
+  my-ssh                   = var.my-ssh
+  argo-password            = var.argo-password
 }

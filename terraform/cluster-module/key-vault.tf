@@ -1,26 +1,10 @@
-data "azurerm_client_config" "current" {
-  
-}
-
-data "external" "account_info" {
-  program = [
-    "az",
-    "ad",
-    "signed-in-user",
-    "show",
-    "--query",
-    "{object_id:id}",
-    "-o",
-    "json",
-  ]
-}
-
+data "azurerm_client_config" "current" {}
 resource "azurerm_key_vault" "devtube" {
-  name                        = "${var.project}-secrets100"
-  location                    = azurerm_resource_group.devtube.location
-  resource_group_name         = azurerm_resource_group.devtube.name
-  tenant_id                   = data.azurerm_client_config.current.tenant_id
-  soft_delete_retention_days  = 7
+  name                       = "${var.project}-secrets100"
+  location                   = azurerm_resource_group.devtube.location
+  resource_group_name        = azurerm_resource_group.devtube.name
+  tenant_id                  = data.azurerm_client_config.current.tenant_id
+  soft_delete_retention_days = 7
 
   sku_name = "standard"
 
@@ -130,6 +114,10 @@ resource "azurerm_key_vault_secret" "devtube_secret_11" {
 }
 
 resource "azurerm_key_vault_access_policy" "devtube-access" {
+  depends_on = [
+    azurerm_key_vault.devtube,
+    azurerm_kubernetes_cluster.devtube
+  ]
   key_vault_id = azurerm_key_vault.devtube.id
   tenant_id    = data.azurerm_client_config.current.tenant_id
   object_id    = azurerm_kubernetes_cluster.devtube.kubelet_identity[0].object_id

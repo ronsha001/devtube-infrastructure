@@ -39,9 +39,6 @@ resource "azurerm_kubernetes_cluster" "devtube" {
 
 }
 
-
-
-# add the role to the identity the kubernetes cluster was assigned
 resource "azurerm_role_assignment" "cluster_pull_acr" {
   scope                = var.acr_scope
   role_definition_name = "AcrPull"

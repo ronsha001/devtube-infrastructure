@@ -1,4 +1,3 @@
-## <https://www.terraform.io/docs/providers/azurerm/r/resource_group.html>
 resource "azurerm_resource_group" "jenkins" {
   name     = "${var.project}-jenkins"
   location = var.rg_location
@@ -11,15 +10,6 @@ resource "azurerm_resource_group" "jenkins" {
     made_by         = var.made_by
   }
 }
-
-# ## <https://www.terraform.io/docs/providers/azurerm/r/availability_set.html>
-# resource "azurerm_availability_set" "DemoAset" {
-#   name                = "example-aset"
-#   location            = azurerm_resource_group.jenkins.location
-#   resource_group_name = azurerm_resource_group.jenkins.name
-# }
-
-## <https://www.terraform.io/docs/providers/azurerm/r/virtual_network.html>
 resource "azurerm_virtual_network" "vnet" {
   name                = "${var.project}-vNet"
   address_space       = var.address_space
@@ -35,7 +25,6 @@ resource "azurerm_virtual_network" "vnet" {
   }
 }
 
-## <https://www.terraform.io/docs/providers/azurerm/r/subnet.html> 
 resource "azurerm_subnet" "subnet" {
   name                 = "internal"
   resource_group_name  = azurerm_resource_group.jenkins.name
@@ -58,7 +47,6 @@ resource "azurerm_public_ip" "jenkins" {
   }
 }
 
-# Create Network Security Group and rule
 resource "azurerm_network_security_group" "jenkins" {
   name                = "${var.project}-sg"
   location            = azurerm_resource_group.jenkins.location
@@ -94,7 +82,6 @@ resource "azurerm_network_security_group" "jenkins" {
   }
 }
 
-## <https://www.terraform.io/docs/providers/azurerm/r/network_interface.html>
 resource "azurerm_network_interface" "jenkins" {
   name                = "${var.project}-example-nic"
   location            = azurerm_resource_group.jenkins.location
@@ -165,7 +152,3 @@ resource "azurerm_role_assignment" "vm_push_acr" {
   role_definition_name = "AcrPush"
   principal_id         = azurerm_linux_virtual_machine.jenkins.identity[0].principal_id
 }
-
-
-# az vm create --resource-group jenkins-get-started-rg --name jenkins-get-started-vm --image UbuntuLTS --admin-username "azureuser" --generate-ssh-keys --public-ip-sku Standard --custom-data cloud-init-jenkins.txt
-# az vm open-port --resource-group jenkins-get-started-rg --name jenkins-get-started-vm  --port 8080 --priority 1010
